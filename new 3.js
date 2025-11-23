@@ -34,3 +34,21 @@ function draw() {
 window.addEventListener('resize', init);
 init();
 draw();
+async function sendMessage() {
+    const input = document.getElementById("user-input").value;
+    if (!input) return;
+    // Display user message
+    document.getElementById("chat-box").innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+    
+    // Call OpenAI API (requires server-side proxy for security)
+    const response = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: input})
+    });
+    
+    const data = await response.json();
+    document.getElementById("chat-box").innerHTML += `<p><strong>Bot:</strong> ${data.reply}</p>`;
+}
+
+
